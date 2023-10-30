@@ -54,3 +54,11 @@ function edit($data)
 
     return mysqli_affected_rows($conn);
 }
+
+function cari($search)
+{
+    $query = "SELECT * FROM karyawan WHERE 
+    nama LIKE '%$search%' OR
+    nrp LIKE '%$search%'";
+    return query($query);
+}

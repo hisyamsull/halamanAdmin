@@ -1,6 +1,16 @@
 <?php
 require 'function.php';
+//menampilkan semua data
 $karyawan = query("SELECT * FROM karyawan");
+
+if (isset($_POST["searchsubmit"])) {
+    $karyawan = cari($_POST["search"]);
+}
+
+
+
+
+//tombol add data
 if (isset($_POST["submit"])) {
     tambah($_POST);
     header("location: admin.php");
@@ -54,6 +64,12 @@ if (isset($_POST["submit"])) {
         <!-- awal card -->
         <div class="card">
             <h5 class="card-header bg-secondary text-light">Halaman Admin</h5>
+            <form action="" method="post">
+                <div class="input-group mb-3">
+                    <input name="search" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" name="searchsubmit" type="search" id="button-addon2">Search</button>
+                </div>
+            </form>
             <div class="card-body">
                 <table class="table">
                     <thead>
