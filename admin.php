@@ -12,8 +12,13 @@ if (isset($_POST["searchsubmit"])) {
 
 //tombol add data
 if (isset($_POST["submit"])) {
-    tambah($_POST);
-    header("location: admin.php");
+    if (tambah($_POST) > 0) {
+        header("location: admin.php");
+    } else {
+        echo "<script>
+        alert('Tambah Data Gagal Silahkan Ulangi Lagi Dengan Benar');
+    </script>";
+    }
 }
 ?>
 <!doctype html>
@@ -36,19 +41,23 @@ if (isset($_POST["submit"])) {
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="addModalLabel">Tambah Data </h1>
                 </div>
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <label for="nama">Nama </label>
                         <input id="nama" type="text" name="nama" class="form-control" placeholder="Nama" aria-label="Nama" aria-describedby="addon-wrapping">
                         <label for="nrp">NRP</label>
                         <input id="nrp" type="text" name="nrp" class="form-control" placeholder="NRP" aria-label="NRP" aria-describedby="addon-wrapping">
                         <label for="jenis_kelamin">Jenis Kelamin</label><br>
-                        <select name="jenis_kelamin" id="jenis_kelamin" class="from-select">
-                            <option value="Laki-Laki">Laki-Laki</option>
-                            <option value="Perempuan">Perempuan</option>
-                        </select><br>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="jenis_kelamin">Pilih</label>
+                            <select name="jenis_kelamin" class="form-select" id="jenis_kelamin">
+                                <option selected>Pilih Jenis Kelamin</option>
+                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
                         <label for="foto">Foto</label>
-                        <input id="foto" type="text" name="foto" class="form-control" placeholder="Foto" aria-label="Foto" aria-describedby="addon-wrapping">
+                        <input id="foto" type="file" name="foto" class="form-control" placeholder="Foto" aria-label="Foto" aria-describedby="addon-wrapping">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
