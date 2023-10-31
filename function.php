@@ -124,3 +124,41 @@ function cari($search)
     nrp LIKE '%$search%'";
     return query($query);
 }
+
+// fungsi registrasi 
+function registrasi($data)
+{
+    global $conn;
+    $username = stripslashes(htmlspecialchars($data["username"]));
+    $email = htmlspecialchars($data["email"]);
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
+    $jenis_kelamin = $data["jenis_kelamin"];
+
+
+    // cek duplicat username pada database
+    $result = mysqli_query($conn, "SELECT username FROM users WHERE username = '$username'");
+    if (mysqli_fetch_assoc($result)) {
+        echo "<script>
+        alert('username yang anda gunakan sudah ada');
+        </script>";
+        return false;
+    }
+
+    // konfirmasi password 
+    if ($password != $password2) {
+        echo "<script>
+        alert('Konfirmasi Password Berbeda');
+        </script>";
+        return false;
+    }
+
+    //enskripsi pasword 
+
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    mysqli_query($conn, "INSERT into users 
+    VALUES 
+    ('','$username', '$password', '$email', '$jenis_kelamin' )
+    ");
+    return mysqli_affected_rows($conn);
+}
