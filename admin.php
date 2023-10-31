@@ -1,5 +1,11 @@
 <?php
 require 'function.php';
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("location: index.php");
+}
+
 //menampilkan semua data
 $karyawan = query("SELECT * FROM karyawan");
 

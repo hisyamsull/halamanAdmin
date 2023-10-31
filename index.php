@@ -1,8 +1,15 @@
 <?php
 require 'function.php';
+session_start();
+
+if (isset($_SESSION["login"])) {
+    session_unset();
+    session_destroy();
+    header("location: index.php");
+}
+
 
 if (isset($_POST["login"])) {
-
     $username = $_POST["username"];
     $password = $_POST["password"];
 
@@ -10,6 +17,7 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"]) == true) {
+            $_SESSION["login"] = true;
             header("location: user.php");
         }
     }
@@ -17,6 +25,7 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         if ($password == $row["password"]) {
+            $_SESSION["login"] = true;
             header("location: admin.php");
         }
     }

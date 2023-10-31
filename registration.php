@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("location: index.php");
+}
+
 require 'function.php';
 if (isset($_POST["submit"])) {
     if (registrasi($_POST) > 0) {
